@@ -2,11 +2,12 @@ class Ship {
   constructor() {
     // Constructor
     this.hp = 3;
+    this.hits = 0;
     this.hit = function () {
-      return this.hp--;
+      return this.hits++;
     };
     this.isSunk = function () {
-      if (this.hp <= 0) {
+      if (this.hits >= this.hp) {
         return true;
       } else {
         return false;
