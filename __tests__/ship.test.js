@@ -1,4 +1,5 @@
-const ship = require("../src/ship");
+const Ship = require("../src/ship");
+let ship = new Ship(3);
 
 test("hit ship and decrease its hp", () => {
   ship.hit();

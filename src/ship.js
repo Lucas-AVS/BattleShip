@@ -1,7 +1,19 @@
 class Ship {
-  constructor() {
+  constructor(hp) {
     // Constructor
-    this.hp = 3;
+    this.hp = hp;
+    if (hp == 1) {
+      this.name = "boat";
+    }
+    if (hp == 2) {
+      this.name = "submarine";
+    }
+    if (hp == 3) {
+      this.name = "warship";
+    }
+    if (hp == 4) {
+      this.name = "destroyer";
+    }
     this.hits = 0;
     this.hit = function () {
       return this.hits++;
@@ -15,9 +27,10 @@ class Ship {
     };
   }
 }
-const ship = new Ship();
 
-module.exports = ship;
+module.exports = Ship;
+
+// module.exports = Ship;
 // console.log(ship);
 
 // ship.hit();
