@@ -1,21 +1,46 @@
-const gameBoard = require("../src/gameBoard");
+const GameBoard = require("../src/gameBoard");
 const Ship = require("../src/ship");
-let ship = new Ship(3);
+
+let ship;
+let board;
+
+beforeEach(() => {
+  board = new GameBoard();
+  ship = new Ship(3);
+});
 
 test("place ships at specific coordinates", () => {
-  gameBoard.placeShip(3, [3, 5]);
+  board.placeShip(3, [3, 5]);
 
-  expect(gameBoard.board[3][5].name).toBe(ship.name);
+  expect(board.board[3][5].name).toBe(ship.name);
 });
 
 test("try to place a ship bigger than the coordinate area", () => {
-  expect(gameBoard.placeShip(3, [3, 8])).toBe(
+  expect(board.placeShip(3, [3, 8])).toBe("ship does not fit this coordinate");
+});
+
+test("try to place a ship in another ship area", () => {
+  board.placeShip(3, [3, 5]);
+  expect(board.placeShip(3, [3, 5])).toBe(
+    "there is already a ship in this area"
+  );
+});
+
+test("Vertical - place ships at specific coordinates", () => {
+  board.placeShip(3, [3, 5], true);
+
+  expect(board.board[3][5].name).toBe(ship.name);
+});
+
+test("Vertical - try to place a ship bigger than the coordinate area", () => {
+  expect(board.placeShip(3, [8, 8], true)).toBe(
     "ship does not fit this coordinate"
   );
 });
 
-test("try to place a ship in another ship area", () => {
-  expect(gameBoard.placeShip(3, [3, 5])).toBe(
+test("Vertical - try to place a ship in another ship area", () => {
+  board.placeShip(3, [3, 5]);
+  expect(board.placeShip(3, [3, 5], true)).toBe(
     "there is already a ship in this area"
   );
 });
