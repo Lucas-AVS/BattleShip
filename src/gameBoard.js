@@ -19,31 +19,49 @@ class Gameboard {
     }
   }
 
-  placeShip(shipLength, coordinate) {
+  placeShip(shipLength, coordinate, isVertical = false) {
     let yAxis = coordinate[0];
     let xAxis = coordinate[1];
     let currentShip = new Ship(shipLength);
 
-    // Checks if the ship fits in coordinates
-    if (xAxis + shipLength > this.board[yAxis].length) {
-      return "ship does not fit this coordinate";
+    if (isVertical) {
+      if (yAxis + shipLength > Object.keys(this.board).length) {
+        return "ship does not fit this coordinate";
+      }
+
+      for (let i = 0; i < shipLength; i++) {
+        if (this.board[yAxis + i][xAxis].length !== 0) {
+          return "there is already a ship in this area";
+        } else {
+          this.board[yAxis + i][xAxis] = currentShip;
+        }
+      }
+
+      // 3
     }
 
-    // Check if there is already have a ship in coordinates
-    for (let i = 0; i < shipLength; i++) {
-      if (this.board[yAxis][xAxis + i].length !== 0) {
-        return "there is already a ship in this area";
+    if (!isVertical) {
+      // Checks if the ship fits in coordinates
+      if (xAxis + shipLength > this.board[yAxis].length && !isVertical) {
+        return "ship does not fit this coordinate";
+      }
+
+      // Check if there is already have a ship in coordinates
+      for (let i = 0; i < shipLength; i++) {
+        if (this.board[yAxis][xAxis + i].length !== 0) {
+          return "there is already a ship in this area";
+        } else {
+          this.board[yAxis][xAxis + i] = currentShip;
+        }
       }
     }
-
-    // remove empty arrays by ship length and add current ship
-    this.board[yAxis].splice(xAxis, shipLength, currentShip);
   }
 }
 
-let gameBoard = new Gameboard();
-// gameBoard.placeShip(3, [3, 7]);
+// let gameBoard = new Gameboard();
+// console.log(gameBoard.board);
+// gameBoard.placeShip(3, [3, 7], true);
 
 // console.log(gameBoard.board);
 
-module.exports = gameBoard;
+module.exports = Gameboard;
