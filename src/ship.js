@@ -1,30 +1,21 @@
 class Ship {
-  constructor(hp) {
-    // Constructor
+  constructor(hp, id) {
     this.hp = hp;
-    if (hp == 1) {
-      this.name = "boat";
-    }
-    if (hp == 2) {
-      this.name = "submarine";
-    }
-    if (hp == 3) {
-      this.name = "warship";
-    }
-    if (hp == 4) {
-      this.name = "destroyer";
-    }
+    this.id = id;
     this.hits = 0;
-    this.hit = function () {
-      return this.hits++;
-    };
-    this.isSunk = function () {
-      if (this.hits >= this.hp) {
-        return true;
-      } else {
-        return false;
-      }
-    };
+
+    if (hp == 1) this.name = "boat";
+    if (hp == 2) this.name = "submarine";
+    if (hp == 3) this.name = "warship";
+    if (hp == 4) this.name = "destroyer";
+  }
+
+  hit() {
+    this.hits++;
+  }
+
+  isSunk() {
+    return this.hits >= this.hp;
   }
 }
 
