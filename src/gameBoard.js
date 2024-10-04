@@ -1,4 +1,5 @@
 const Ship = require("./ship");
+const { v4: uuidv4 } = require("uuid");
 
 class Gameboard {
   constructor() {
@@ -22,7 +23,7 @@ class Gameboard {
   placeShip(shipLength, coordinate, isVertical = false) {
     let yAxis = coordinate[0];
     let xAxis = coordinate[1];
-    let currentShip = new Ship(shipLength);
+    let currentShip = new Ship(shipLength, uuidv4());
 
     if (isVertical) {
       if (yAxis + shipLength > Object.keys(this.board).length) {
@@ -58,10 +59,10 @@ class Gameboard {
   }
 }
 
-// let gameBoard = new Gameboard();
+let gameBoard = new Gameboard();
 // console.log(gameBoard.board);
-// gameBoard.placeShip(3, [3, 7], true);
+gameBoard.placeShip(3, [3, 7], true);
 
-// console.log(gameBoard.board);
+console.log(gameBoard.board);
 
 module.exports = Gameboard;
