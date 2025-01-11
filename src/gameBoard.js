@@ -22,7 +22,7 @@ class Gameboard {
 
   placeShip(shipLength, coordinate, isVertical = false) {
     let yAxis = coordinate[0];
-    let xAxis = coordinate[1];
+    let xAxis = coordinate[1] - 1;
     let currentShip = new Ship(shipLength, uuidv4());
 
     if (isVertical) {
@@ -37,8 +37,6 @@ class Gameboard {
           this.board[yAxis + i][xAxis] = currentShip;
         }
       }
-
-      // 3
     }
 
     if (!isVertical) {
@@ -57,12 +55,32 @@ class Gameboard {
       }
     }
   }
+
+  findShip(y, x) {
+    const yPositionToValue = y.charCodeAt(0) - 96; // 'a' -> índice 1, 'b' -> índice 2, etc.
+    const xPosition = x - 1; // Ajustar para índice interno (0-based)
+
+    if (
+      !this.board[yPositionToValue] ||
+      !this.board[yPositionToValue][xPosition] ||
+      this.board[yPositionToValue][xPosition].length === 0
+    ) {
+      return `there is no ship at current coordinate`;
+    } else {
+      return `you found ship ${this.board[yPositionToValue][xPosition].id}`;
+    }
+  }
 }
 
 let gameBoard = new Gameboard();
 // console.log(gameBoard.board);
-gameBoard.placeShip(3, [3, 7], true);
+// gameBoard.placeShip(3, [3, 5], true);
+// gameBoard.placeShip(1, [1, 1]);
+// gameBoard.placeShip(3, [6, 5], true);
 
-console.log(gameBoard.board);
+// console.log(gameBoard.board);
+// console.log(gameBoard.findShip("g", 3));
+// console.log(gameBoard.findShip("c", 5));
+// console.log(gameBoard.findShip("a", 1));
 
 module.exports = Gameboard;
