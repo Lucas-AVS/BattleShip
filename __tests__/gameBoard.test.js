@@ -1,5 +1,7 @@
 const GameBoard = require("../src/gameBoard");
 const Ship = require("../src/ship");
+// board.board[value1][value2] -> value2 is adjusted by adding 1 to align with the gameboard functions format,
+// where the y-axis uses a 1-10 index range, and the x-axis follows the array's 0-9 index range.
 
 let ship;
 let board;
@@ -16,7 +18,7 @@ test("place ships at specific coordinates", () => {
 });
 
 test("try to place a ship bigger than the coordinate area", () => {
-  expect(board.placeShip(3, [3, 8])).toBe("ship does not fit this coordinate");
+  expect(board.placeShip(3, [3, 9])).toBe("ship does not fit this coordinate");
 });
 
 test("try to place a ship in another ship area", () => {
@@ -28,8 +30,7 @@ test("try to place a ship in another ship area", () => {
 
 test("Vertical - place ships at specific coordinates", () => {
   board.placeShip(3, [3, 5], true);
-
-  expect(board.board[3][5].name).toBe(ship.name);
+  expect(board.board[3][5 - 1].name).toBe(ship.name);
 });
 
 test("Vertical - try to place a ship bigger than the coordinate area", () => {
@@ -43,4 +44,14 @@ test("Vertical - try to place a ship in another ship area", () => {
   expect(board.placeShip(3, [3, 5], true)).toBe(
     "there is already a ship in this area"
   );
+});
+
+test("ship found at specific coordinates", () => {
+  board.placeShip(1, [9, 9]);
+  const placedShip = board.board[9][8];
+  expect(board.findShip("i", 9)).toBe(`you found ship ${placedShip.id}`);
+});
+
+test("ship not found at specific coordinates", () => {
+  expect(board.findShip("j", 9)).toBe(`there is no ship at current coordinate`);
 });
