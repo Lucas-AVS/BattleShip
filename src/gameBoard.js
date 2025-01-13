@@ -12,14 +12,15 @@ class Gameboard {
       for (let j = 1; j <= y; j++) {
         let row = [];
         for (let i = 0; i < x; i++) {
-          row.push([]); // Inicializa cada quadrante do tabuleiro como um array vazio
+          row.push([]); // columns
         }
-        board[j] = row; // Adiciona cada linha ao tabuleiro
+        board[j] = row; // rows
       }
       return board;
     }
   }
 
+  //Index at placeShip and other functions always starts at 1 / standardized index at 1
   placeShip(shipLength, coordinate, isVertical = false) {
     let yAxis = coordinate[0];
     let xAxis = coordinate[1] - 1;
@@ -57,8 +58,8 @@ class Gameboard {
   }
 
   findShip(y, x) {
-    const yPositionToValue = y.charCodeAt(0) - 96; // 'a' -> índice 1, 'b' -> índice 2, etc.
-    const xPosition = x - 1; // Ajustar para índice interno (0-based)
+    const yPositionToValue = y.charCodeAt(0) - 96; // 'a' -> index 1, 'b' -> index 2, etc.
+    const xPosition = x - 1; // Adjust to internal index (0-based)
 
     if (
       !this.board[yPositionToValue] ||
