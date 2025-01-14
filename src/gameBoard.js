@@ -68,20 +68,45 @@ class Gameboard {
     ) {
       return `there is no ship at current coordinate`;
     } else {
-      return `you found ship ${this.board[yPositionToValue][xPosition].id}`;
+      return this.board[yPositionToValue][xPosition].id;
+    }
+  }
+
+  hitIdShip(id) {
+    for (const rowKey in this.board) {
+      const row = this.board[rowKey];
+      for (const ship of row) {
+        if (ship.id === id) {
+          ship.hit();
+          // IMPORTANT NOTE:
+          // All board positions representing parts of the same ship share the same instance of the "Ship" object.
+          // Changes to one position (e.g., a hit) affect all positions linked to that ship.
+          return ship.isSunk() ? "you sank the ship!" : "you hit a ship!";
+        }
+      }
+    }
+  }
+
+  receiveAttack(y, x) {
+    if (this.findShip(y, x) == `there is no ship at current coordinate`) {
+      return "you missed!";
+    } else {
+      return this.hitIdShip(this.findShip(y, x));
     }
   }
 }
 
 let gameBoard = new Gameboard();
+let ship = new Ship();
 // console.log(gameBoard.board);
 // gameBoard.placeShip(3, [3, 5], true);
 // gameBoard.placeShip(1, [1, 1]);
 // gameBoard.placeShip(3, [6, 5], true);
 
-// console.log(gameBoard.board);
 // console.log(gameBoard.findShip("g", 3));
 // console.log(gameBoard.findShip("c", 5));
 // console.log(gameBoard.findShip("a", 1));
 
+// console.log(gameBoard.receiveAttack("a", 1));
+// console.log(gameBoard.board);
 module.exports = Gameboard;
