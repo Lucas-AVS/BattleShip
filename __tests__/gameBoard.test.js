@@ -46,12 +46,26 @@ test("Vertical - try to place a ship in another ship area", () => {
   );
 });
 
-test("ship found at specific coordinates", () => {
+test("find a ship at specific coordinates", () => {
   board.placeShip(1, [9, 9]);
   const placedShip = board.board[9][8];
-  expect(board.findShip("i", 9)).toBe(`you found ship ${placedShip.id}`);
+  expect(board.findShip("i", 9)).toBe(placedShip.id);
 });
 
 test("ship not found at specific coordinates", () => {
   expect(board.findShip("j", 9)).toBe(`there is no ship at current coordinate`);
+});
+
+test("HIT -> receiveAttack at specific coordinates", () => {
+  board.placeShip(2, [10, 9]);
+  expect(board.receiveAttack("j", 9)).toBe(`you hit a ship!`);
+});
+
+test("MISS -> receiveAttack at specific coordinates", () => {
+  expect(board.receiveAttack("j", 9)).toBe(`you missed!`);
+});
+
+test("SUNK -> receiveAttack at specific coordinates", () => {
+  board.placeShip(1, [3, 3]);
+  expect(board.receiveAttack("c", 3)).toBe(`you sank the ship!`);
 });
