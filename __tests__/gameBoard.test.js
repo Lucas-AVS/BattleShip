@@ -69,3 +69,9 @@ test("SUNK -> receiveAttack at specific coordinates", () => {
   board.placeShip(1, [3, 3]);
   expect(board.receiveAttack("c", 3)).toBe(`you sank the ship!`);
 });
+
+// Gameboards should keep track of missed attacks
+test("keep track of missed attacks", () => {
+  board.receiveAttack("j", 9);
+  expect(board.board[10][8]).toBe("Miss");
+});
