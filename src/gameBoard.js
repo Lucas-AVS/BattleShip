@@ -97,9 +97,7 @@ class Gameboard {
         }
       }
     }
-    return shipsLeft > 0
-      ? `There are still ${shipsLeft} ships sailing!`
-      : "All ships have been sunk!";
+    return shipsLeft > 0 ? false : true;
   }
 
   hitIdShip(id) {
@@ -111,7 +109,12 @@ class Gameboard {
           // IMPORTANT NOTE:
           // All board positions representing parts of the same ship share the same instance of the "Ship" object.
           // Changes to one position (e.g., a hit) affect all positions linked to that ship.
-          return ship.isSunk() ? "you sank the ship!" : "you hit a ship!";
+          if (ship.isSunk()) {
+            return this.boardSunk()
+              ? "All ships have been sunk!"
+              : "You sank the ship!";
+          }
+          return ship.isSunk() ? this.boardSunk() : "you hit a ship!";
         }
       }
     }
