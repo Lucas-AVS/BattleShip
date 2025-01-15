@@ -66,6 +66,7 @@ class Gameboard {
       !this.board[yPositionToValue][xPosition] ||
       this.board[yPositionToValue][xPosition].length === 0
     ) {
+      this.board[yPositionToValue][xPosition] = "Miss";
       return `there is no ship at current coordinate`;
     } else {
       return this.board[yPositionToValue][xPosition].id;
@@ -98,15 +99,11 @@ class Gameboard {
 
 let gameBoard = new Gameboard();
 let ship = new Ship();
-// console.log(gameBoard.board);
-// gameBoard.placeShip(3, [3, 5], true);
-// gameBoard.placeShip(1, [1, 1]);
-// gameBoard.placeShip(3, [6, 5], true);
+console.log(gameBoard.board);
+gameBoard.placeShip(3, [3, 5], true);
 
-// console.log(gameBoard.findShip("g", 3));
-// console.log(gameBoard.findShip("c", 5));
-// console.log(gameBoard.findShip("a", 1));
+console.log(gameBoard.findShip("c", 5));
 
-// console.log(gameBoard.receiveAttack("a", 1));
-// console.log(gameBoard.board);
+console.log(gameBoard.receiveAttack("a", 1));
+console.log(gameBoard.board);
 module.exports = Gameboard;
