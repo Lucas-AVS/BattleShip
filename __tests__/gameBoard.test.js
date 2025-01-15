@@ -75,3 +75,15 @@ test("keep track of missed attacks", () => {
   board.receiveAttack("j", 9);
   expect(board.board[10][8]).toBe("Miss");
 });
+
+// report whether or not all ships have been sunk.
+test("all ships have been sunk", () => {
+  board.placeShip(1, [3, 3]);
+  board.receiveAttack("c", 3);
+  expect(board.boardSunk()).toBe(`All ships have been sunk!`);
+});
+test("there are still ships sailing", () => {
+  board.placeShip(1, [3, 3]);
+  board.placeShip(2, [4, 5], true);
+  expect(board.boardSunk()).toBe(`There are still 2 ships sailing!`);
+});
