@@ -73,6 +73,35 @@ class Gameboard {
     }
   }
 
+  // report whether or not all ships have been sunk.
+  boardSunk() {
+    let shipsLeft = 0;
+    let shipId = [];
+    let checkedShip = false;
+    for (const rowKey in this.board) {
+      const row = this.board[rowKey];
+      for (const ship of row) {
+        // check if ship has an id
+        if (ship.id) {
+          // check if ship was already checked
+          shipId.forEach((id) => {
+            id === ship.id ? (checkedShip = true) : (checkedShip = false);
+          });
+          if (checkedShip) {
+            // console.log("Ship already checked");
+          } else if (!ship.isSunk()) {
+            checkedShip = false;
+            shipId.push(ship.id);
+            shipsLeft++;
+          }
+        }
+      }
+    }
+    return shipsLeft > 0
+      ? `There are still ${shipsLeft} ships sailing!`
+      : "All ships have been sunk!";
+  }
+
   hitIdShip(id) {
     for (const rowKey in this.board) {
       const row = this.board[rowKey];
