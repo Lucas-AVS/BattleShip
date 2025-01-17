@@ -22,6 +22,15 @@ class Gameboard {
 
   //Index at placeShip and other functions always starts at 1 / standardized index at 1
   placeShip(shipLength, coordinate, isVertical = false) {
+    if (
+      coordinate[0] > 10 ||
+      coordinate[1] > 10 ||
+      coordinate[0] < 1 ||
+      coordinate[1] < 1
+    ) {
+      return "invalid position";
+    }
+
     let yAxis = coordinate[0];
     let xAxis = coordinate[1] - 1;
     let currentShip = new Ship(shipLength, uuidv4());
@@ -60,6 +69,14 @@ class Gameboard {
   findShip(y, x) {
     const yPositionToValue = y.charCodeAt(0) - 96; // 'a' -> index 1, 'b' -> index 2, etc.
     const xPosition = x - 1; // Adjust to internal index (0-based)
+    if (
+      xPosition > 9 || //due to previous internal adjust
+      yPositionToValue > 10 ||
+      xPosition < 0 || //due to previous internal adjust
+      yPositionToValue < 1
+    ) {
+      return "invalid position";
+    }
 
     if (
       !this.board[yPositionToValue] ||
@@ -123,19 +140,22 @@ class Gameboard {
   receiveAttack(y, x) {
     if (this.findShip(y, x) == `there is no ship at current coordinate`) {
       return "you missed!";
+    }
+    if (this.findShip(y, x) == `invalid position`) {
+      return "invalid position";
     } else {
       return this.hitIdShip(this.findShip(y, x));
     }
   }
 }
 
-let gameBoard = new Gameboard();
-let ship = new Ship();
-console.log(gameBoard.board);
-gameBoard.placeShip(3, [3, 5], true);
+// let gameBoard = new Gameboard();
+// let ship = new Ship();
+// console.log(gameBoard.board);
+// gameBoard.placeShip(3, [3, 5], true);
 
-console.log(gameBoard.findShip("c", 5));
+// console.log(gameBoard.findShip("c", 5));
 
-console.log(gameBoard.receiveAttack("a", 1));
-console.log(gameBoard.board);
+// console.log(gameBoard.receiveAttack("a", 1));
+// console.log(gameBoard.board);
 module.exports = Gameboard;
