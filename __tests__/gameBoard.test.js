@@ -11,6 +11,13 @@ beforeEach(() => {
   ship = new Ship(3);
 });
 
+test("Vertical - Ship placement at invalid coordinates fails", () => {
+  expect(board.placeShip(3, [11, 5], true)).toBe("invalid position");
+});
+test("Ship placement at invalid coordinates fails", () => {
+  expect(board.placeShip(3, [3, 0])).toBe("invalid position");
+});
+
 test("place ships at specific coordinates", () => {
   board.placeShip(3, [3, 5]);
 
@@ -46,6 +53,11 @@ test("Vertical - try to place a ship in another ship area", () => {
   );
 });
 
+test("Vertical - single ship placement", () => {
+  board.placeShip(4, [5, 5], true);
+  expect(board.board[5][4].name).toBe("destroyer");
+});
+
 test("find a ship at specific coordinates", () => {
   board.placeShip(1, [9, 9]);
   const placedShip = board.board[9][8];
@@ -65,6 +77,14 @@ test("MISS -> receiveAttack at specific coordinates", () => {
   expect(board.receiveAttack("j", 9)).toBe(`you missed!`);
 });
 
+test("Attack outside board boundaries fails", () => {
+  expect(board.receiveAttack("a", 11)).toBe("invalid position");
+});
+
+test("Attack outside board boundaries fails", () => {
+  expect(board.receiveAttack("k", 5)).toBe("invalid position");
+});
+
 test("SUNK -> receiveAttack at specific coordinates", () => {
   board.placeShip(1, [3, 3]);
   board.placeShip(1, [4, 4]);
@@ -81,6 +101,12 @@ test("keep track of missed attacks", () => {
 test("all ships have been sunk", () => {
   board.placeShip(1, [3, 3]);
   board.receiveAttack("c", 3);
+  expect(board.boardSunk()).toBe(true);
+});
+test("Vertical - all ships have been sunk", () => {
+  board.placeShip(2, [3, 5], true);
+  board.receiveAttack("c", 5);
+  board.receiveAttack("d", 5);
   expect(board.boardSunk()).toBe(true);
 });
 test("there are still ships sailing", () => {
