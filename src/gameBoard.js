@@ -79,12 +79,16 @@ class Gameboard {
     }
 
     if (
-      !this.board[yPositionToValue] ||
-      !this.board[yPositionToValue][xPosition] ||
-      this.board[yPositionToValue][xPosition].length === 0
+      (!this.board[yPositionToValue] ||
+        !this.board[yPositionToValue][xPosition] ||
+        this.board[yPositionToValue][xPosition].length === 0) &&
+      typeof this.board[yPositionToValue][xPosition] === "object"
     ) {
       this.board[yPositionToValue][xPosition] = "Miss";
       return `there is no ship at current coordinate`;
+    }
+    if (typeof this.board[yPositionToValue][xPosition] === "string") {
+      return "Area already chosen!";
     } else {
       return this.board[yPositionToValue][xPosition].id;
     }
@@ -120,18 +124,19 @@ class Gameboard {
   hitIdShip(id) {
     for (const rowKey in this.board) {
       const row = this.board[rowKey];
-      for (const ship of row) {
+      for (let columnIndex = 0; columnIndex < row.length; columnIndex++) {
+        const ship = row[columnIndex];
         if (ship.id === id) {
           ship.hit();
-          // IMPORTANT NOTE:
-          // All board positions representing parts of the same ship share the same instance of the "Ship" object.
-          // Changes to one position (e.g., a hit) affect all positions linked to that ship.
+
           if (ship.isSunk()) {
             return this.boardSunk()
               ? "All ships have been sunk!"
               : "You sank the ship!";
+          } else {
+            row[columnIndex] = "Hit"; // directly in the ship cell to change it
+            return "You hit a ship!";
           }
-          return ship.isSunk() ? this.boardSunk() : "you hit a ship!";
         }
       }
     }
@@ -140,6 +145,9 @@ class Gameboard {
   receiveAttack(y, x) {
     if (this.findShip(y, x) == `there is no ship at current coordinate`) {
       return "you missed!";
+    }
+    if (this.findShip(y, x) == `Area already chosen!`) {
+      return "Area already chosen!";
     }
     if (this.findShip(y, x) == `invalid position`) {
       return "invalid position";
@@ -152,10 +160,9 @@ class Gameboard {
 // let gameBoard = new Gameboard();
 // let ship = new Ship();
 // console.log(gameBoard.board);
-// gameBoard.placeShip(3, [3, 5], true);
+// gameBoard.receiveAttack("a", 1);
+// console.log(typeof gameBoard.board[1][0] === "object");
+// console.log(typeof gameBoard.board[1][1] === "object");
 
-// console.log(gameBoard.findShip("c", 5));
-
-// console.log(gameBoard.receiveAttack("a", 1));
-// console.log(gameBoard.board);
+// console.log(gameBoard.board[3][4]);
 module.exports = Gameboard;
