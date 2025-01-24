@@ -130,9 +130,12 @@ class Gameboard {
           ship.hit();
 
           if (ship.isSunk()) {
-            return this.boardSunk()
-              ? "All ships have been sunk!"
-              : "You sank the ship!";
+            if (this.boardSunk()) {
+              row[columnIndex] = `sunken ${row[columnIndex].name}`;
+              return "All ships have been sunk!";
+            } else {
+              return "You sank the ship!";
+            }
           } else {
             row[columnIndex] = "Hit"; // directly in the ship cell to change it
             return "You hit a ship!";
