@@ -70,7 +70,7 @@ test("ship not found at specific coordinates", () => {
 
 test("HIT -> receiveAttack at specific coordinates", () => {
   board.placeShip(2, [10, 9]);
-  expect(board.receiveAttack("j", 9)).toBe(`you hit a ship!`);
+  expect(board.receiveAttack("j", 9)).toBe(`You hit a ship!`);
 });
 
 test("MISS -> receiveAttack at specific coordinates", () => {
@@ -120,4 +120,17 @@ test("all ships have been sunk", () => {
   board.placeShip(1, [3, 3]);
   board.receiveAttack("c", 3);
   expect(board.receiveAttack("c", 3)).toBe("All ships have been sunk!");
+});
+
+//check if is possible to attack more than once a missed area
+test("AREA ALREADY CHOSEN -> empty area", () => {
+  board.receiveAttack("e", 5);
+  expect(board.receiveAttack("e", 5)).toBe("Area already chosen!");
+});
+
+//check if is possible to attack more than once a hitted area
+test("AREA ALREADY CHOSEN -> hitted ship", () => {
+  board.placeShip(2, [5, 5]);
+  board.receiveAttack("e", 5);
+  expect(board.receiveAttack("e", 5)).toBe("Area already chosen!");
 });
