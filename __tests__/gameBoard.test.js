@@ -118,7 +118,6 @@ test("there are still ships sailing", () => {
 //check board when a ship have been sunk
 test("all ships have been sunk", () => {
   board.placeShip(1, [3, 3]);
-  board.receiveAttack("c", 3);
   expect(board.receiveAttack("c", 3)).toBe("All ships have been sunk!");
 });
 
@@ -133,4 +132,11 @@ test("AREA ALREADY CHOSEN -> hitted ship", () => {
   board.placeShip(2, [5, 5]);
   board.receiveAttack("e", 5);
   expect(board.receiveAttack("e", 5)).toBe("Area already chosen!");
+});
+
+//when a ship is sunk its obj in the array change to sunk shipname
+test("AREA ALREADY CHOSEN -> hitted ship", () => {
+  board.placeShip(1, [6, 6]);
+  board.receiveAttack("f", 6);
+  expect(board.board[6][5]).toBe("sunken boat");
 });
