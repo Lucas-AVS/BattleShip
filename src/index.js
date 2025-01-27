@@ -1,4 +1,5 @@
 // import Gameboard from "./gameBoard";
+import shipStaticBoard from "./functions/shipsToPlace";
 import Player from "./player";
 import "./style.css";
 
@@ -42,6 +43,7 @@ function renderBoard() {
 }
 
 renderBoard();
+shipStaticBoard();
 
 console.log(player1.gameBoard);
 // player.gameBoard.placeShip(3, [3, 5], true);
