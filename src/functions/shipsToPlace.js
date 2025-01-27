@@ -29,12 +29,18 @@ export default function shipsToPlace() {
         switch (hp) {
           case 1:
             quantity = 5;
+            break;
           case 2:
             quantity = 3;
+            break;
           case 3:
             quantity = 2;
+            break;
           case 4:
             quantity = 1;
+            break;
+          default:
+            quantity = 0;
         }
         return quantity;
       };
