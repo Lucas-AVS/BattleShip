@@ -3,26 +3,20 @@ const Ship = require("../ship");
 const ships = [new Ship(1), new Ship(2), new Ship(3), new Ship(4)];
 
 export default function shipsToPlace() {
-  const content = document.querySelector(".content");
+  const content = document.querySelector(".play-area");
 
   function renderToPlaceBoard() {
-    let container = document.createElement("div");
-    container.id = "to-place-board";
-    container.innerHTML = "";
+    const container = document.createElement("div");
+    container.className = "to-place-container";
+    const flexContainer = document.createElement("div");
+    flexContainer.className = "to-place-flex-container";
+    container.appendChild(flexContainer);
     content.appendChild(container);
 
+    const shipContainer = document.createElement("div");
+    shipContainer.className = "ship-container";
     ships.forEach((ship, index) => {
-      // Cria um contêiner para cada navio
-      const shipContainer = document.createElement("div");
-      shipContainer.className = "ship-container";
-
-      // Nome do navio
-      const shipName = document.createElement("div");
-      shipName.textContent = `${ship.name} (${ship.hp})`;
-      shipName.className = "ship-name";
-
-      // Contador dinâmico
-      const shipCounter = document.createElement("div");
+      const shipInfo = document.createElement("h2");
 
       const shipQuantity = (hp) => {
         let quantity = "";
@@ -45,14 +39,34 @@ export default function shipsToPlace() {
         return quantity;
       };
 
-      shipCounter.textContent = `x${shipQuantity(ship.hp)}`;
-      shipCounter.className = "ship-counter";
-      shipCounter.id = `ship-counter-${index}`;
-
-      shipContainer.appendChild(shipName);
-      shipContainer.appendChild(shipCounter);
-      container.appendChild(shipContainer);
+      shipInfo.textContent = `(x${shipQuantity(ship.hp)}) ${ship.name}`;
+      shipInfo.className = "ship-info";
+      shipContainer.appendChild(shipInfo);
     });
+    flexContainer.appendChild(shipContainer);
+
+    const toPlaceBoard = document.createElement("div");
+    toPlaceBoard.className = "to-place-board";
+    function toPlaceFlexContainer() {
+      let boardRows = 4;
+      let boardColumns = 4;
+      for (let y = 0; y < boardRows; y++) {
+        let rowDiv = document.createElement("div");
+        rowDiv.className = "row";
+        toPlaceBoard.appendChild(rowDiv);
+        for (let x = 0; x < boardColumns; x++) {
+          let columnDiv = document.createElement("div");
+          columnDiv.className = "cell";
+          rowDiv.appendChild(columnDiv);
+        }
+      }
+    }
+    toPlaceFlexContainer();
+    flexContainer.appendChild(toPlaceBoard);
+
+    const deployButton = document.createElement("button");
+    deployButton.className = "deploy-button";
+    content.appendChild(deployButton);
   }
 
   return renderToPlaceBoard();
