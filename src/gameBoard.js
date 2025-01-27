@@ -22,18 +22,12 @@ class Gameboard {
 
   //Index at placeShip and other functions always starts at 1 / standardized index at 1
   placeShip(shipLength, coordinate, isVertical = false) {
-    if (
-      coordinate[0] > 10 ||
-      coordinate[1] > 10 ||
-      coordinate[0] < 1 ||
-      coordinate[1] < 1
-    ) {
-      return "invalid position";
-    }
-
-    let yAxis = coordinate[0];
+    let yAxis = coordinate[0].charCodeAt(0) - 96;
     let xAxis = coordinate[1] - 1;
     let currentShip = new Ship(shipLength, uuidv4());
+    if (yAxis > 10 || xAxis > 10 || yAxis < 1 || xAxis < 1) {
+      return "invalid position";
+    }
 
     if (isVertical) {
       if (yAxis + shipLength > Object.keys(this.board).length) {

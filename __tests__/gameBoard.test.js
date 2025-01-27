@@ -12,54 +12,56 @@ beforeEach(() => {
 });
 
 test("Vertical - Ship placement at invalid coordinates fails", () => {
-  expect(board.placeShip(3, [11, 5], true)).toBe("invalid position");
+  expect(board.placeShip(3, ["k", 5], true)).toBe("invalid position");
 });
 test("Ship placement at invalid coordinates fails", () => {
-  expect(board.placeShip(3, [3, 0])).toBe("invalid position");
+  expect(board.placeShip(3, ["c", 0])).toBe("invalid position");
 });
 
 test("place ships at specific coordinates", () => {
-  board.placeShip(3, [3, 5]);
+  board.placeShip(3, ["c", 5]);
 
   expect(board.board[3][5].name).toBe(ship.name);
 });
 
 test("try to place a ship bigger than the coordinate area", () => {
-  expect(board.placeShip(3, [3, 9])).toBe("ship does not fit this coordinate");
+  expect(board.placeShip(3, ["c", 9])).toBe(
+    "ship does not fit this coordinate"
+  );
 });
 
 test("try to place a ship in another ship area", () => {
-  board.placeShip(3, [3, 5]);
-  expect(board.placeShip(3, [3, 5])).toBe(
+  board.placeShip(3, ["c", 5]);
+  expect(board.placeShip(3, ["c", 5])).toBe(
     "there is already a ship in this area"
   );
 });
 
 test("Vertical - place ships at specific coordinates", () => {
-  board.placeShip(3, [3, 5], true);
+  board.placeShip(3, ["c", 5], true);
   expect(board.board[3][5 - 1].name).toBe(ship.name);
 });
 
 test("Vertical - try to place a ship bigger than the coordinate area", () => {
-  expect(board.placeShip(3, [8, 8], true)).toBe(
+  expect(board.placeShip(3, ["h", 8], true)).toBe(
     "ship does not fit this coordinate"
   );
 });
 
 test("Vertical - try to place a ship in another ship area", () => {
-  board.placeShip(3, [3, 5]);
-  expect(board.placeShip(3, [3, 5], true)).toBe(
+  board.placeShip(3, ["c", 5]);
+  expect(board.placeShip(3, ["c", 5], true)).toBe(
     "there is already a ship in this area"
   );
 });
 
 test("Vertical - single ship placement", () => {
-  board.placeShip(4, [5, 5], true);
+  board.placeShip(4, ["e", 5], true);
   expect(board.board[5][4].name).toBe("destroyer");
 });
 
 test("find a ship at specific coordinates", () => {
-  board.placeShip(1, [9, 9]);
+  board.placeShip(1, ["i", 9]);
   const placedShip = board.board[9][8];
   expect(board.findShip("i", 9)).toBe(placedShip.id);
 });
@@ -69,7 +71,7 @@ test("ship not found at specific coordinates", () => {
 });
 
 test("HIT -> receiveAttack at specific coordinates", () => {
-  board.placeShip(2, [10, 9]);
+  board.placeShip(2, ["j", 9]);
   expect(board.receiveAttack("j", 9)).toBe(`You hit a ship!`);
 });
 
@@ -86,8 +88,8 @@ test("Attack outside board boundaries fails", () => {
 });
 
 test("SUNK -> receiveAttack at specific coordinates", () => {
-  board.placeShip(1, [3, 3]);
-  board.placeShip(1, [4, 4]);
+  board.placeShip(1, ["c", 3]);
+  board.placeShip(1, ["d", 4]);
   expect(board.receiveAttack("c", 3)).toBe(`You sank the ship!`);
 });
 
@@ -99,25 +101,25 @@ test("keep track of missed attacks", () => {
 
 // report whether or not all ships have been sunk.
 test("all ships have been sunk", () => {
-  board.placeShip(1, [3, 3]);
+  board.placeShip(1, ["c", 3]);
   board.receiveAttack("c", 3);
   expect(board.boardSunk()).toBe(true);
 });
 test("Vertical - all ships have been sunk", () => {
-  board.placeShip(2, [3, 5], true);
+  board.placeShip(2, ["c", 5], true);
   board.receiveAttack("c", 5);
   board.receiveAttack("d", 5);
   expect(board.boardSunk()).toBe(true);
 });
 test("there are still ships sailing", () => {
-  board.placeShip(1, [3, 3]);
-  board.placeShip(2, [4, 5], true);
+  board.placeShip(1, ["c", 3]);
+  board.placeShip(2, ["d", 5], true);
   expect(board.boardSunk()).toBe(false);
 });
 
 //check board when a ship have been sunk
 test("all ships have been sunk", () => {
-  board.placeShip(1, [3, 3]);
+  board.placeShip(1, ["c", 3]);
   expect(board.receiveAttack("c", 3)).toBe("All ships have been sunk!");
 });
 
@@ -129,14 +131,14 @@ test("AREA ALREADY CHOSEN -> empty area", () => {
 
 //check if is possible to attack more than once a hitted area
 test("AREA ALREADY CHOSEN -> hitted ship", () => {
-  board.placeShip(2, [5, 5]);
+  board.placeShip(2, ["e", 5]);
   board.receiveAttack("e", 5);
   expect(board.receiveAttack("e", 5)).toBe("Area already chosen!");
 });
 
 //when a ship is sunk its obj in the array change to sunk shipname
 test("AREA ALREADY CHOSEN -> hitted ship", () => {
-  board.placeShip(1, [6, 6]);
+  board.placeShip(1, ["f", 6]);
   board.receiveAttack("f", 6);
   expect(board.board[6][5]).toBe("sunken boat");
 });
