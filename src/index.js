@@ -4,11 +4,15 @@ import Player from "./player";
 import "./style.css";
 
 const content = document.querySelector(".content");
-
 const test = document.createElement("h1");
 test.textContent = "This is a test";
-
 content.appendChild(test);
+const playArea = document.createElement("div");
+playArea.className = "play-area";
+content.appendChild(playArea);
+const boardContainer = document.createElement("div");
+boardContainer.className = "board-container";
+playArea.appendChild(boardContainer);
 
 let player1 = new Player(true);
 
@@ -21,7 +25,7 @@ function renderBoard() {
     const row = player1.gameBoard.board[rowKey];
     const rowDiv = document.createElement("div");
     rowDiv.className = "row";
-    content.appendChild(rowDiv);
+    boardContainer.appendChild(rowDiv);
 
     for (let columnIndex = 0; columnIndex < row.length; columnIndex++) {
       const cellDiv = document.createElement("div");
@@ -44,6 +48,14 @@ function renderBoard() {
 
 renderBoard();
 shipStaticBoard();
+
+function deployShip(coordinate) {
+  ev.target.id;
+  player1.placeShip(1, coordinate);
+}
+
+const deployButton = document.querySelector(".deploy-button");
+deployButton.addEventListener("click", deployShip);
 
 console.log(player1.gameBoard);
 // player.gameBoard.placeShip(3, [3, 5], true);
