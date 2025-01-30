@@ -34,12 +34,12 @@ class Gameboard {
         return "ship does not fit this coordinate";
       }
 
-      for (let i = 0; i < shipLength; i++) {
-        if (this.board[yAxis + i][xAxis].length !== 0) {
-          return "there is already a ship in this area";
-        } else {
+      if (this.AvailableArea(yAxis, xAxis, shipLength, true)) {
+        for (let i = 0; i < shipLength; i++) {
           this.board[yAxis + i][xAxis] = currentShip;
         }
+      } else {
+        return "there is already a ship in this area";
       }
     }
 
@@ -50,14 +50,26 @@ class Gameboard {
       }
 
       // Check if there is already have a ship in coordinates
-      for (let i = 0; i < shipLength; i++) {
-        if (this.board[yAxis][xAxis + i].length !== 0) {
-          return "there is already a ship in this area";
-        } else {
+      if (this.AvailableArea(yAxis, xAxis, shipLength, false)) {
+        for (let i = 0; i < shipLength; i++) {
           this.board[yAxis][xAxis + i] = currentShip;
         }
+      } else {
+        return "there is already a ship in this area";
       }
     }
+  }
+
+  AvailableArea(y, x, shipLength, isVertical) {
+    for (let i = 0; i < shipLength; i++) {
+      let checkY = isVertical ? y + i : y;
+      let checkX = isVertical ? x : x + i;
+
+      if (this.board[checkY]?.[checkX]?.length !== 0) {
+        return false;
+      }
+    }
+    return true;
   }
 
   findShip(y, x) {
