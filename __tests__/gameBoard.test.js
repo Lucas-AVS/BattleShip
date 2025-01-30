@@ -146,5 +146,20 @@ test("AREA ALREADY CHOSEN -> hitted ship", () => {
 test("place a ships at the first column", () => {
   board.placeShip(3, ["a", 1]);
 
-  expect(board.board[1][1].name).toBe(ship.name);
+  expect(board.board[1][0].name).toBe("warship");
+});
+
+test("try to place a ship larger than the coordinate area between 2 ships", () => {
+  board.placeShip(1, ["a", 1]);
+  board.placeShip(1, ["a", 3]);
+  expect(board.placeShip(4, ["a", 2])).toBe(
+    "there is already a ship in this area"
+  );
+});
+
+test("try to place a ship larger than the coordinate area between 2 ships", () => {
+  board.placeShip(1, ["a", 1]);
+  board.placeShip(1, ["a", 3]);
+  board.placeShip(4, ["a", 2]);
+  expect(board.board[1][1].name).toBe("destroyer");
 });
