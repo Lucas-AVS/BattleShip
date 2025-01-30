@@ -44,18 +44,67 @@ function renderBoard() {
   }
 }
 
+let shipQuantities = {
+  boat: 5,
+  submarine: 3,
+  warship: 2,
+  destroyer: 1,
+};
+
 renderBoard();
-shipsToPlace();
+shipsToPlace(
+  shipQuantities.boat,
+  shipQuantities.submarine,
+  shipQuantities.warship,
+  shipQuantities.destroyer
+);
 
 function deployShip(y, x) {
   let currentShip = document.querySelector(".to-place-container");
-  let shipSize = Number(currentShip.id);
+  let shipSize = Number(currentShip.dataset.selectedShipHp);
+
+  if (!shipSize || shipSize === "disabled") {
+    alert("Please select a valid ship to place.");
+    return;
+  }
 
   console.log("Deploying ship at:", y, x);
+  let result = player1.gameBoard.placeShip(shipSize, [y, x]);
 
-  player1.gameBoard.placeShip(shipSize, [y, x]);
+  if (
+    result === "invalid position" ||
+    result === "ship does not fit this coordinate" ||
+    result === "there is already a ship in this area"
+  ) {
+    alert(result);
+    return;
+  }
 
   console.log(player1.gameBoard);
+
+  switch (shipSize) {
+    case 1:
+      shipQuantities.boat--;
+      break;
+    case 2:
+      shipQuantities.submarine--;
+      break;
+    case 3:
+      shipQuantities.warship--;
+      break;
+    case 4:
+      shipQuantities.destroyer--;
+      break;
+  }
+
+  // Refresh shipsToPlace UI with the new ships quantity
+  currentShip.dataset.selectedShipHp = "";
+  shipsToPlace(
+    shipQuantities.boat,
+    shipQuantities.submarine,
+    shipQuantities.warship,
+    shipQuantities.destroyer
+  );
 }
 
 // const deployButton = document.querySelector(".deploy-button");
