@@ -25,7 +25,7 @@ class Gameboard {
     let yAxis = coordinate[0].charCodeAt(0) - 96;
     let xAxis = coordinate[1] - 1;
     let currentShip = new Ship(shipLength, uuidv4());
-    if (yAxis > 10 || xAxis > 10 || yAxis < 1 || xAxis < 1) {
+    if (yAxis > 10 || xAxis > 9 || yAxis < 1 || xAxis < 0) {
       return "invalid position";
     }
 

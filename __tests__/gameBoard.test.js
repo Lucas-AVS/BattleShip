@@ -19,9 +19,9 @@ test("Ship placement at invalid coordinates fails", () => {
 });
 
 test("place ships at specific coordinates", () => {
-  board.placeShip(3, ["c", 5]);
+  board.placeShip(3, ["c", 2]);
 
-  expect(board.board[3][5].name).toBe(ship.name);
+  expect(board.board[3][2].name).toBe(ship.name);
 });
 
 test("try to place a ship bigger than the coordinate area", () => {
@@ -141,4 +141,10 @@ test("AREA ALREADY CHOSEN -> hitted ship", () => {
   board.placeShip(1, ["f", 6]);
   board.receiveAttack("f", 6);
   expect(board.board[6][5]).toBe("sunken boat");
+});
+
+test("place a ships at the first column", () => {
+  board.placeShip(3, ["a", 1]);
+
+  expect(board.board[1][1].name).toBe(ship.name);
 });
