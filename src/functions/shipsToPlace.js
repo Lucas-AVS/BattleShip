@@ -8,6 +8,7 @@ export default function shipsToPlace() {
   function renderToPlaceBoard() {
     const container = document.createElement("div");
     container.className = "to-place-container";
+    container.id = "disable";
     const flexContainer = document.createElement("div");
     flexContainer.className = "to-place-flex-container";
     container.appendChild(flexContainer);
@@ -15,7 +16,10 @@ export default function shipsToPlace() {
 
     const shipContainer = document.createElement("div");
     shipContainer.className = "ship-container";
-    ships.forEach((ship, index) => {
+    const toPlaceBoard = document.createElement("div");
+    toPlaceBoard.className = "to-place-board";
+
+    ships.forEach((ship) => {
       const shipInfo = document.createElement("h2");
 
       const shipQuantity = (hp) => {
@@ -42,26 +46,24 @@ export default function shipsToPlace() {
       shipInfo.textContent = `(x${shipQuantity(ship.hp)}) ${ship.name}`;
       shipInfo.className = "ship-info";
       shipContainer.appendChild(shipInfo);
+
+      let rowDiv = document.createElement("div");
+      rowDiv.className = "row";
+
+      for (let x = 0; x < 4; x++) {
+        let cellDiv = document.createElement("div");
+        cellDiv.className = "cell";
+        x < ship.hp ? (cellDiv.id = ship.hp) : (cellDiv.id = "disable");
+
+        cellDiv.addEventListener("click", () => {
+          return (container.id = cellDiv.id);
+        });
+
+        rowDiv.appendChild(cellDiv);
+        toPlaceBoard.appendChild(rowDiv);
+      }
     });
     flexContainer.appendChild(shipContainer);
-
-    const toPlaceBoard = document.createElement("div");
-    toPlaceBoard.className = "to-place-board";
-    function toPlaceFlexContainer() {
-      let boardRows = 4;
-      let boardColumns = 4;
-      for (let y = 0; y < boardRows; y++) {
-        let rowDiv = document.createElement("div");
-        rowDiv.className = "row";
-        toPlaceBoard.appendChild(rowDiv);
-        for (let x = 0; x < boardColumns; x++) {
-          let columnDiv = document.createElement("div");
-          columnDiv.className = "cell";
-          rowDiv.appendChild(columnDiv);
-        }
-      }
-    }
-    toPlaceFlexContainer();
     flexContainer.appendChild(toPlaceBoard);
 
     const deployButton = document.createElement("button");
