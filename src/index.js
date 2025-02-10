@@ -37,7 +37,9 @@ function renderBoard() {
       // Add click event for interaction
       let y = cellDiv.dataset.row;
       let x = Number(cellDiv.dataset.column);
-      cellDiv.addEventListener("click", () => deployShip(y, x));
+      cellDiv.addEventListener("click", () => {
+        deployShip(y, x);
+      });
 
       rowDiv.appendChild(cellDiv);
     }
@@ -59,6 +61,29 @@ shipsToPlace(
   shipQuantities.destroyer
 );
 
+function displayShip(y, x, vertical = false) {
+  let currentShip = document.querySelector(".to-place-container");
+  let shipSize = Number(currentShip.dataset.selectedShipHp);
+
+  if (!vertical) {
+    for (let i = 0; i < shipSize; i++) {
+      let currentDiv = document.querySelector(
+        `[data-row="${y}"][data-column="${x + i}"]`
+      );
+      currentDiv.id = "deployed";
+    }
+  }
+  if (vertical) {
+    for (let i = 0; i < shipSize; i++) {
+      let currentDiv = document.querySelector(
+        `[data-row="${y + i}"][data-column="${x}"]`
+      );
+      currentDiv.id = "deployed";
+    }
+  }
+  // <div class="cell" data-row="b" data-column="9"></div>
+}
+
 function deployShip(y, x) {
   let currentShip = document.querySelector(".to-place-container");
   let shipSize = Number(currentShip.dataset.selectedShipHp);
@@ -78,6 +103,8 @@ function deployShip(y, x) {
   ) {
     alert(result);
     return;
+  } else {
+    displayShip(y, x);
   }
 
   console.log(player1.gameBoard);
