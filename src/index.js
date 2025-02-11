@@ -1,4 +1,5 @@
 // import Gameboard from "./gameBoard";
+import enemyBoard from "./functions/enemyBoard";
 import shipsToPlace from "./functions/shipsToPlace";
 import Player from "./player";
 import "./style.css";
@@ -54,6 +55,7 @@ let shipQuantities = {
 };
 
 renderBoard();
+
 shipsToPlace(
   shipQuantities.boat,
   shipQuantities.submarine,
@@ -152,6 +154,61 @@ function deployShip(y, x) {
     currentOrientation()
   );
 }
+
+// Buttons functions
+function clearBoard() {
+  //clear UI
+  let deployedShips = document.querySelectorAll("#deployed");
+  deployedShips.forEach((ship) => {
+    ship.id = "";
+  });
+
+  //clear gameBoard array
+  player1.gameBoard.clearBoard();
+  console.log(player1.gameBoard);
+
+  //reset ships quantities
+  shipQuantities = {
+    boat: 5,
+    submarine: 3,
+    warship: 2,
+    destroyer: 1,
+  };
+  shipsToPlace(
+    shipQuantities.boat,
+    shipQuantities.submarine,
+    shipQuantities.warship,
+    shipQuantities.destroyer
+  );
+  console.log("Board cleared");
+}
+
+function startGame() {
+  const shipsToPlaceContainer = document.querySelector(".to-place-container");
+  playArea.removeChild(shipsToPlaceContainer);
+  content.removeChild(".buttons");
+
+  enemyBoard();
+  console.log("Game started");
+}
+
+// Menu Buttons
+const buttonsDiv = document.createElement("div");
+buttonsDiv.className = "buttons";
+const clearButton = document.createElement("button");
+clearButton.className = "clear-button";
+const startGameButton = document.createElement("button");
+startGameButton.className = "start-game-button";
+
+buttonsDiv.appendChild(clearButton);
+buttonsDiv.appendChild(startGameButton);
+content.appendChild(buttonsDiv);
+
+clearButton.textContent = "Clear Board";
+startGameButton.textContent = "Start Game";
+
+clearButton.addEventListener("click", clearBoard);
+startGameButton.addEventListener("click", startGame);
 
 // const deployButton = document.querySelector(".deploy-button");
 // deployButton.addEventListener("click", () => deployShip);
