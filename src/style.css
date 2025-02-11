@@ -33,6 +33,13 @@
     background-color: red;
   }
 
+  [data-ship-hp='1'],
+  [data-ship-hp='2'],
+  [data-ship-hp='3'],
+  [data-ship-hp='4'] {
+    background-color: red;
+  }
+
   .cell.hit {
     background-color: red;
     color: white;
@@ -48,6 +55,22 @@
     align-items: center;
     justify-content: space-around;
     align-content: center;
+  }
+
+  .to-place-container#vertical {
+    display: flex;
+    flex-direction:column-reverse;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+  }
+
+  .orientation-button {
+    height: 100%;
+    width: 100%;
+    padding: 5px;
   }
 
   .to-place-flex-container {

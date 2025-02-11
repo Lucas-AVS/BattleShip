@@ -61,6 +61,13 @@ shipsToPlace(
   shipQuantities.destroyer
 );
 
+function currentOrientation() {
+  let orientation = document.querySelector(".to-place-container");
+  if (orientation.id === "vertical") {
+    return true;
+  } else return false;
+}
+
 function displayShip(y, x, vertical = false) {
   let currentShip = document.querySelector(".to-place-container");
   let shipSize = Number(currentShip.dataset.selectedShipHp);
@@ -130,7 +137,8 @@ function deployShip(y, x) {
     shipQuantities.boat,
     shipQuantities.submarine,
     shipQuantities.warship,
-    shipQuantities.destroyer
+    shipQuantities.destroyer,
+    currentOrientation()
   );
 }
 

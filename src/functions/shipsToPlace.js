@@ -6,9 +6,25 @@ export default function shipsToPlace(
   boat = 5,
   submarine = 3,
   warship = 2,
-  destroyer = 1
+  destroyer = 1,
+  vertical = false
 ) {
   const content = document.querySelector(".play-area");
+
+  function orientationChange() {
+    vertical = !vertical;
+
+    const container = document.querySelector(".to-place-container");
+    const button = document.querySelector(".orientation-button");
+
+    if (vertical) {
+      container.id = "vertical";
+      button.textContent = "Change to horizontal";
+    } else {
+      container.id = "horizontal";
+      button.textContent = "Change to vertical";
+    }
+  }
 
   // Clear before render
   const existingContainer = document.querySelector(".to-place-container");
@@ -19,6 +35,12 @@ export default function shipsToPlace(
   function renderToPlaceBoard() {
     const container = document.createElement("div");
     container.className = "to-place-container";
+    if (vertical) {
+      container.id = "vertical";
+    } else {
+      container.id = "horizontal";
+    }
+
     const flexContainer = document.createElement("div");
     flexContainer.className = "to-place-flex-container";
     container.appendChild(flexContainer);
@@ -72,6 +94,17 @@ export default function shipsToPlace(
 
     flexContainer.appendChild(shipContainer);
     flexContainer.appendChild(toPlaceBoard);
+
+    const orientationButton = document.createElement("button");
+    orientationButton.className = "orientation-button";
+    if (container.id === "vertical") {
+      orientationButton.textContent = "Change to horizontal";
+    } else {
+      orientationButton.textContent = "Change to vertical";
+    }
+    orientationButton.addEventListener("click", () => orientationChange());
+
+    container.appendChild(orientationButton);
   }
 
   return renderToPlaceBoard();
