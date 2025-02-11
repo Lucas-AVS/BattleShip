@@ -68,7 +68,14 @@ function currentOrientation() {
   } else return false;
 }
 
-function displayShip(y, x, vertical = false) {
+function letterNumberTransform(letter, number) {
+  const base = "a".charCodeAt(0) - 1; // "a" vira 1, "b" vira 2, etc.
+  const letterToNum = letter.toLowerCase().charCodeAt(0) - base; // Converte a letra para número
+  const sum = letterToNum + number; // Soma com o número
+  return String.fromCharCode(base + sum); // Converte de volta para letra
+}
+
+function displayShip(y, x, vertical = currentOrientation()) {
   let currentShip = document.querySelector(".to-place-container");
   let shipSize = Number(currentShip.dataset.selectedShipHp);
 
@@ -83,7 +90,7 @@ function displayShip(y, x, vertical = false) {
   if (vertical) {
     for (let i = 0; i < shipSize; i++) {
       let currentDiv = document.querySelector(
-        `[data-row="${y + i}"][data-column="${x}"]`
+        `[data-row="${letterNumberTransform(y, i)}"][data-column="${x}"]`
       );
       currentDiv.id = "deployed";
     }
@@ -101,7 +108,11 @@ function deployShip(y, x) {
   }
 
   console.log("Deploying ship at:", y, x);
-  let result = player1.gameBoard.placeShip(shipSize, [y, x]);
+  let result = player1.gameBoard.placeShip(
+    shipSize,
+    [y, x],
+    currentOrientation()
+  );
 
   if (
     result === "invalid position" ||
