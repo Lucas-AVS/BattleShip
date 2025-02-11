@@ -169,3 +169,16 @@ test("Vertical - try to place a ship larger than the coordinate area between 2 s
     "there is already a ship in this area"
   );
 });
+
+test("Clear board", () => {
+  board.placeShip(1, ["a", 1]);
+  board.clearBoard();
+  expect(board.board[1][0]).toEqual([]);
+});
+
+test("Clear board, and place a ship again", () => {
+  board.placeShip(1, ["a", 1]);
+  board.clearBoard();
+  board.placeShip(1, ["a", 1]);
+  expect(board.board[1][0].name).toBe("boat");
+});

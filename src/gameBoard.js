@@ -167,6 +167,10 @@ class Gameboard {
       return this.hitIdShip(this.findShip(y, x));
     }
   }
+
+  clearBoard() {
+    this.board = this.createBoard(10, 10);
+  }
 }
 
 // let gameBoard = new Gameboard();
