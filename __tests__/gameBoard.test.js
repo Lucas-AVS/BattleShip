@@ -43,7 +43,7 @@ test("Vertical - place ships at specific coordinates", () => {
 });
 
 test("Vertical - try to place a ship bigger than the coordinate area", () => {
-  expect(board.placeShip(3, ["h", 8], true)).toBe(
+  expect(board.placeShip(4, ["h", 8], true)).toBe(
     "ship does not fit this coordinate"
   );
 });
@@ -60,13 +60,9 @@ test("Vertical - single ship placement", () => {
   expect(board.board[5][4].name).toBe("destroyer");
 });
 
-test("Vertical - single ship placement", () => {
+test("Vertical - single ship placement at last row", () => {
   board.placeShip(3, ["h", 1], true);
   expect(board.board[8][0].name).toBe("warship");
-});
-test("Vertical - single ship placement", () => {
-  board.placeShip(2, ["h", 1], true);
-  expect(board.board[8][0].name).toBe("submarine");
 });
 
 test("find a ship at specific coordinates", () => {

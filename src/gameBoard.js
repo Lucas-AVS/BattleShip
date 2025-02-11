@@ -30,7 +30,10 @@ class Gameboard {
     }
 
     if (isVertical) {
-      if (yAxis + shipLength > Object.keys(this.board).length) {
+      // y - 1 because index starts at 1 (h + 3 = 11)
+      if (yAxis - 1 + shipLength > Object.keys(this.board).length) {
+        console.log(yAxis);
+        console.log(Object.keys(this.board).length);
         return "ship does not fit this coordinate";
       }
 
