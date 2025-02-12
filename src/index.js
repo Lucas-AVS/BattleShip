@@ -1,5 +1,6 @@
 // import Gameboard from "./gameBoard";
 import enemyBoard from "./functions/enemyBoard";
+import renderBoard from "./functions/renderBoard";
 import shipsToPlace from "./functions/shipsToPlace";
 import Player from "./player";
 import "./style.css";
@@ -11,41 +12,8 @@ content.appendChild(test);
 const playArea = document.createElement("div");
 playArea.className = "play-area";
 content.appendChild(playArea);
-const boardContainer = document.createElement("div");
-boardContainer.className = "board-container";
-playArea.appendChild(boardContainer);
 
 let player1 = new Player(true);
-
-function numberToAlphabetLetter(value) {
-  return (Number(value) + 9).toString(36);
-}
-
-function renderBoard() {
-  for (const rowKey in player1.gameBoard.board) {
-    const row = player1.gameBoard.board[rowKey];
-    const rowDiv = document.createElement("div");
-    rowDiv.className = "row";
-    boardContainer.appendChild(rowDiv);
-
-    for (let columnIndex = 0; columnIndex < row.length; columnIndex++) {
-      const cellDiv = document.createElement("div");
-      cellDiv.className = `cell`;
-      //   cellDiv.textContent = "";
-      cellDiv.dataset.row = numberToAlphabetLetter(rowKey);
-      cellDiv.dataset.column = columnIndex + 1;
-
-      // Add click event for interaction
-      let y = cellDiv.dataset.row;
-      let x = Number(cellDiv.dataset.column);
-      cellDiv.addEventListener("click", () => {
-        deployShip(y, x);
-      });
-
-      rowDiv.appendChild(cellDiv);
-    }
-  }
-}
 
 let shipQuantities = {
   boat: 5,
@@ -54,7 +22,7 @@ let shipQuantities = {
   destroyer: 1,
 };
 
-renderBoard();
+renderBoard(player1, "player1");
 
 shipsToPlace(
   shipQuantities.boat,
@@ -186,7 +154,7 @@ function clearBoard() {
 function startGame() {
   const shipsToPlaceContainer = document.querySelector(".to-place-container");
   playArea.removeChild(shipsToPlaceContainer);
-  content.removeChild(".buttons");
+  content.removeChild(document.querySelector(".buttons"));
 
   enemyBoard();
   console.log("Game started");
