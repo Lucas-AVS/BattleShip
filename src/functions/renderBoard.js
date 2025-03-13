@@ -1,4 +1,4 @@
-export default function renderBoard(player, playerName) {
+export default function renderBoard(player, playerName, handleFunction) {
   const boardContainer = document.createElement("div");
   boardContainer.className = `${playerName}-board`;
   const playArea = document.querySelector(".play-area");
@@ -20,12 +20,14 @@ export default function renderBoard(player, playerName) {
         }
         cellDiv.dataset.row = numberToAlphabetLetter(rowKey);
         cellDiv.dataset.column = columnIndex + 1;
-
+        if (player.gameBoard.board[rowKey][columnIndex].hp) {
+          cellDiv.id = "deployed";
+        }
         // Add click event for interaction
         let y = cellDiv.dataset.row;
         let x = Number(cellDiv.dataset.column);
         cellDiv.addEventListener("click", () => {
-          deployShip(y, x);
+          handleFunction(y, x);
         });
 
         rowDiv.appendChild(cellDiv);
