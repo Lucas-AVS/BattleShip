@@ -148,6 +148,13 @@ test("AREA ALREADY CHOSEN -> hitted ship", () => {
   expect(board.board[6][5]).toBe("sunken boat");
 });
 
+test("AREA ALREADY CHOSEN -> hitted ship", () => {
+  board.placeShip(3, ["a", 1]);
+  board.placeShip(1, ["f", 6]);
+  board.receiveAttack("f", 6);
+  expect(board.receiveAttack("f", 6)).toBe("Area already chosen!");
+});
+
 test("place a ships at the first column", () => {
   board.placeShip(3, ["a", 1]);
 

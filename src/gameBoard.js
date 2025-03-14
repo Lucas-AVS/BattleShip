@@ -143,6 +143,7 @@ class Gameboard {
               row[columnIndex] = `sunken ${row[columnIndex].name}`;
               return "All ships have been sunk!";
             } else {
+              row[columnIndex] = `sunken ${row[columnIndex].name}`;
               return "You sank the ship!";
             }
           } else {
