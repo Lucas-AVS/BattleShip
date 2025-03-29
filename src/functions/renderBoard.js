@@ -1,4 +1,4 @@
-export default function renderBoard(player, playerName, handleFunction) {
+export default function renderBoard(player, playerName) {
   const boardContainer = document.createElement("div");
   boardContainer.className = `${playerName}-board`;
   const playArea = document.querySelector(".play-area");
@@ -20,15 +20,18 @@ export default function renderBoard(player, playerName, handleFunction) {
         }
         cellDiv.dataset.row = numberToAlphabetLetter(rowKey);
         cellDiv.dataset.column = columnIndex + 1;
+
+        // check if there is a ship in the cell
         if (player.gameBoard.board[rowKey][columnIndex].hp) {
           cellDiv.id = "deployed";
         }
+
         // Add click event for interaction
         let y = cellDiv.dataset.row;
         let x = Number(cellDiv.dataset.column);
-        cellDiv.addEventListener("click", () => {
-          handleFunction(y, x);
-        });
+        cellDiv.addEventListener("click", () =>
+          player.gameBoard.receiveAttack(y, x)
+        );
 
         rowDiv.appendChild(cellDiv);
       }
