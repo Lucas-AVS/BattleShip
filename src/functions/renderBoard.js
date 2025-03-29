@@ -30,11 +30,42 @@ export default function renderBoard(player, playerName) {
         let y = cellDiv.dataset.row;
         let x = Number(cellDiv.dataset.column);
 
+        function markGameBoard(y, x, result) {
+          let currentBoard = document.querySelector(`.${playerName}-board`);
+          let currentDiv = currentBoard.querySelector(
+            `[data-row="${y}"][data-column="${x}"]`
+          );
+          currentDiv.id = result;
+        }
+
         cellDiv.addEventListener("click", () => {
-          if (playArea.id !== `${playerName}-played`) {
-            player.gameBoard.receiveAttack(y, x);
+          if (playArea.id === `${playerName}-played`) {
+            alert("It's not your turn!");
+            return;
+          }
+
+          const attackResult = player.gameBoard.receiveAttack(y, x);
+
+          if (
+            attackResult === "Area already chosen!" ||
+            attackResult === "invalid position"
+          ) {
+            alert(attackResult);
+            return;
+          }
+
+          const messages = {
+            "You sank the ship!": "hit",
+            "You hit a ship!": "hit",
+            "you missed!": "miss",
+            "All ships have been sunk!": "hit",
+          };
+
+          if (messages[attackResult]) {
+            alert(attackResult);
+            markGameBoard(y, x, messages[attackResult]);
             playArea.id = `${playerName}-played`;
-          } else alert("It's not your turn!");
+          }
         });
 
         rowDiv.appendChild(cellDiv);
