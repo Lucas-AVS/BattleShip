@@ -1,4 +1,5 @@
 // import Gameboard from "./gameBoard";
+import deployableBoard from "./functions/deployableBoard";
 import enemyBoard from "./functions/enemyBoard";
 import renderBoard from "./functions/renderBoard";
 import shipsToPlace from "./functions/shipsToPlace";
@@ -22,7 +23,7 @@ let shipQuantities = {
   destroyer: 1,
 };
 
-renderBoard(player1, "player1");
+deployableBoard(player1, "player1", deployShip);
 
 shipsToPlace(
   shipQuantities.boat,
@@ -152,12 +153,11 @@ function clearBoard() {
 }
 
 function startGame() {
-  const shipsToPlaceContainer = document.querySelector(".to-place-container");
-  playArea.removeChild(shipsToPlaceContainer);
+  playArea.innerHTML = "";
   content.removeChild(document.querySelector(".buttons"));
 
+  renderBoard(player1, "player1");
   enemyBoard();
-  console.log("Game started");
 }
 
 // Menu Buttons
@@ -188,4 +188,3 @@ startGameButton.addEventListener("click", startGame);
 // player.gameBoard.receiveAttack("c", 5);
 // player.gameBoard.receiveAttack("c", 5);
 // player.gameBoard.receiveAttack("a", 5);
-// console.log(player.gameBoard);
