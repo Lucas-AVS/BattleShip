@@ -80,6 +80,15 @@ test("HIT -> receiveAttack at specific coordinates", () => {
   expect(board.receiveAttack("j", 9)).toBe(`You hit a ship!`);
 });
 
+test("HIT -> receiveAttack multiple times at specific coordinates", () => {
+  board.placeShip(1, ["e", 1]);
+  board.placeShip(4, ["a", 1]);
+  expect(board.receiveAttack("a", 1)).toBe(`You hit a ship!`);
+  expect(board.receiveAttack("a", 2)).toBe(`You hit a ship!`);
+  expect(board.receiveAttack("a", 4)).toBe(`You hit a ship!`);
+  expect(board.receiveAttack("a", 3)).toBe(`You sank the ship!`);
+});
+
 test("MISS -> receiveAttack at specific coordinates", () => {
   expect(board.receiveAttack("j", 9)).toBe(`you missed!`);
 });
