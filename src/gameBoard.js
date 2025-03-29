@@ -32,8 +32,6 @@ class Gameboard {
     if (isVertical) {
       // y - 1 because index starts at 1 (h + 3 = 11)
       if (yAxis - 1 + shipLength > Object.keys(this.board).length) {
-        console.log(yAxis);
-        console.log(Object.keys(this.board).length);
         return "ship does not fit this coordinate";
       }
 
@@ -130,7 +128,7 @@ class Gameboard {
     return shipsLeft > 0 ? false : true;
   }
 
-  hitIdShip(id) {
+  hitIdShip(id, y, x) {
     for (const rowKey in this.board) {
       const row = this.board[rowKey];
       for (let columnIndex = 0; columnIndex < row.length; columnIndex++) {
@@ -147,7 +145,11 @@ class Gameboard {
               return "You sank the ship!";
             }
           } else {
-            row[columnIndex] = "Hit"; // directly in the ship cell to change it
+            let yAxis = y.charCodeAt(0) - 96;
+            let xAxis = x - 1;
+            let hitRow = this.board[yAxis];
+
+            hitRow[xAxis] = "Hit";
             return "You hit a ship!";
           }
         }
@@ -165,7 +167,7 @@ class Gameboard {
     if (this.findShip(y, x) == `invalid position`) {
       return "invalid position";
     } else {
-      return this.hitIdShip(this.findShip(y, x));
+      return this.hitIdShip(this.findShip(y, x), y, x);
     }
   }
 
