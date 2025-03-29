@@ -21,15 +21,9 @@ export default function deployableBoard(player, playerName, deployFunction) {
         cellDiv.dataset.row = numberToAlphabetLetter(rowKey);
         cellDiv.dataset.column = columnIndex + 1;
 
-        // if ((playerName === "enemy")) {
+        // check if there is a ship in the cell
         if (player.gameBoard.board[rowKey][columnIndex].hp) {
           cellDiv.id = "deployed";
-        }
-        // }
-        if (playerName === "player") {
-          if (player.gameBoard.board[rowKey][columnIndex].hp) {
-            cellDiv.id = "deployed";
-          }
         }
         // Add click event for interaction
         let y = cellDiv.dataset.row;
