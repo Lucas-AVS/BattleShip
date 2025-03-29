@@ -12,6 +12,7 @@ test.textContent = "This is a test";
 content.appendChild(test);
 const playArea = document.createElement("div");
 playArea.className = "play-area";
+playArea.id = "enemy-played";
 content.appendChild(playArea);
 
 let player1 = new Player(true);

@@ -29,9 +29,13 @@ export default function renderBoard(player, playerName) {
         // Add click event for interaction
         let y = cellDiv.dataset.row;
         let x = Number(cellDiv.dataset.column);
-        cellDiv.addEventListener("click", () =>
-          player.gameBoard.receiveAttack(y, x)
-        );
+
+        cellDiv.addEventListener("click", () => {
+          if (playArea.id !== `${playerName}-played`) {
+            player.gameBoard.receiveAttack(y, x);
+            playArea.id = `${playerName}-played`;
+          } else alert("It's not your turn!");
+        });
 
         rowDiv.appendChild(cellDiv);
       }
